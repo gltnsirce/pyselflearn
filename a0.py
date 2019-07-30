@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 
 a = eval(input('Enter a number, a ='))
 b = eval(input('Enter a number, b ='))
