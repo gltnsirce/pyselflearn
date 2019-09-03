@@ -1,0 +1,81 @@
+#!/usr/bin/python
+#coding:utf-8
+
+import os
+#import pymysql
+import MySQLdb
+import datetime
+import shutil
+import paramiko
+
+currentTime = datetime.datetime.today()
+diskPath = '/mnt/ftp-disk'
+archivePath = '/mnt/ftp-archive'
+
+bugzillaDB = MySQLdb.connect(
+    host='10.62.81.156',
+    port=3306,
+    user='root',
+    passwd='changeme',
+    db='bugzilla',
+    charset='utf8'
+)
+
+cursor = bugzillaDB.cursor()
+
+#queryBugs = 'select bug_id from bugs where bug_status in ("RESOLVED","CLOSED") and delta_ts between DATE_SUB(CURDATE(), INTERVAL 14 DAY) and DATE_SUB(CURDATE(), INTERVAL 7 DAY)'
+queryBugs = "select bug_id, bug_status, delta_ts from bugs"
+#queryBugStatus = "select bug_id from bugs"
+
+try:
+    cursor.execute(queryBugs)
+    Bugs = cursor.fetchall()
+    if Bugs is None:
+        print("Search bugzilla failed in mySQL DB.")
+    else:
+        print(Bugs)
+
+except:
+    print("Unable to fetch data")
+
+#print(type(Bugs))
+
+cursor.close()
+
+bugzillaDB.close()
+
+#print(Bugs)
+#print(len(Bugs))
+
+for bug in range(len(Bugs)):
+#    print(Bugs[bug])
+#    print(Bugs[bug][0])
+#    print(Bugs[bug][2])
+    bugid = Bugs[bug][0]
+    bugStatus = Bugs[bug][1]
+    bugModifyTime = Bugs[bug][2]
+#    print("----------")
+#    print(bugid, bugModifyTime, bugStatus)
+
+    if bugStatus == "CLOSED" or bugStatus == "RESOLVED":
+        if currentTime - bugModifyTime > datetime.timedelta(days=7):
+            ftpdisk = "/mnt/ftp-disk/" + str(bugid)
+            ftparch = "/mnt/ftp-archive/" + str(bugid)
+#            print(ftpdisk)
+            if os.path.exists(ftpdisk):
+                if os.path.exists(ftparch):
+                    print(ftparch)
+                    print(bugid,': Found the log file already exist in archive server, will update the files.')
+                    shutil.rmtree(ftparch)
+                    shutil.move(ftpdisk,ftparch)
+                else:
+                    print("Will move",bugid,"to archive server.")
+                    shutil.move(ftpdisk,ftparch)
+#                   shutil.copy2(ftpdisk, ftparch)
+            else:
+                print("Didn't found any log files for",bugid,"under /mnt/ftp-disk.")
+        else:
+            print("Hold and will move the file to archive after the bug is closed 7 days later.")
+
+
+#print(currentTime - bugModifyTime)
