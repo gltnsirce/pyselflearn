@@ -14,6 +14,6 @@ with open(os.devnull, "wb") as limbo:
                 stdout = limbo,
                 stderr = limbo).wait()
         if res:
-            print( addr, '\x1b[1;31m'+'inactive'+'\x1b[0m')
+            print( addr, '\x1b[1;31m'+'inactive'+'\x1b[0m')         # Red code
         else:
-            print( addr, '\x1b[1;32m'+'active'+ '\x1b[0m')
+            print( addr, '\x1b[1;32m'+'active'+ '\x1b[0m')          # Green code
