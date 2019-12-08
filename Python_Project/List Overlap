@@ -26,7 +26,6 @@ def AutoGenListTwo():
     #print("l2 tuple:",listtwo)
     return listtwo
 
-
 #a1 = [1,2,3,4,5,6,7,8,9,0]
 #a2 = [1,2,3,4,5,11,12,13,14]
 
@@ -39,7 +38,9 @@ def AutoGenListTwo():
 def CompareList():
     l1st = AutoGenListOne()
     l2nd = AutoGenListTwo()
-    print(l1st,l2nd)
+    print(" The first list is ", l1st,
+          "\n",
+          "The second list is",l2nd)
     l = []
     for i in l1st:
         #print(i)
