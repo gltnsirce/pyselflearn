@@ -26,10 +26,8 @@ def AutoGenListTwo():
     #print("l2 tuple:",listtwo)
     return listtwo
 
-
 #a1 = [1,2,3,4,5,6,7,8,9,0]
 #a2 = [1,2,3,4,5,11,12,13,14]
-
 #l = []
 #for i in a1:
 #    if i in a2:
