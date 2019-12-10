@@ -2,13 +2,21 @@
 
 import random
 
-print('I will auto generate a list with 20 elements if you do not want to enter a list and the members.')
-print('=============================================================================================================')
+print('I will auto generate a list with 20 elements if '
+      'you do not want to enter a list and the members.')
+print('==================================================='
+      '==========================================================')
 
 def DealUserList():
     ul = []
     newList = []
-    UserList = list(map(int, input("Enter the list's elements and split by" + "\033[0;31;40m\t','\033[0m" + ":").split(",")))
+    #print(userList)
+    UserList = list(map(int,
+                        input("Enter the list's elements and split by"
+                              + "\033[0;31;40m\t','\033[0m"
+                              + ":").split(",")
+                        )
+                    )
     for x in UserList:
         if x % 2 == 0:
             newList.append(x)
